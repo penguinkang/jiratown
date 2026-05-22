@@ -1,0 +1,29 @@
+{
+  "name": "@jiratown/connectors",
+  "version": "0.1.3",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@jiratown/shared": "^0.1.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

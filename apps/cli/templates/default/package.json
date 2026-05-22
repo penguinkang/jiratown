@@ -1,0 +1,35 @@
+{
+  "name": "jiratown-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:client": "next dev",
+    "dev:server": "jiratown-server",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@jiratown/client": "^0.1.2",
+    "@jiratown/connectors": "^0.1.2",
+    "@jiratown/engine": "^0.1.2",
+    "@jiratown/server": "^0.1.2",
+    "@jiratown/shared": "^0.1.2",
+    "next": "^15.1.4",
+    "phaser": "^3.87.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "socket.io-client": "^4.8.1",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
+  }
+}

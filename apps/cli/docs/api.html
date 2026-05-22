@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JiraTown API Reference</title>
+    <style>
+      body { margin: 0; font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #172033; background: #f8fafc; }
+      main { max-width: 860px; margin: 0 auto; padding: 48px 24px 72px; }
+      nav { margin-bottom: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+      a { color: #075985; }
+      pre { overflow-x: auto; padding: 16px; border-radius: 8px; background: #0f172a; color: #e2e8f0; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      li { margin: 6px 0; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <nav>
+        <a href="./getting-started.html">Getting Started</a>
+        <a href="./connectors.html">Connector Setup</a>
+        <a href="./api.html">API Reference</a>
+        <a href="./project.html">Project Overview</a>
+      </nav>
+      <h1>API Reference</h1>
+      <p>The default server listens on <code>http://localhost:4000</code>.</p>
+      <h2>GET /health</h2>
+      <pre><code>{"ok":true,"service":"jiratown-server"}</code></pre>
+      <h2>GET /tasks</h2>
+      <p>Returns all tasks sorted by creation time.</p>
+      <pre><code>{
+  "tasks": [
+    {
+      "id": "JT-101",
+      "source": "jira",
+      "title": "Fix websocket reconnect bug",
+      "status": "in_progress",
+      "priority": "high",
+      "labels": []
+    }
+  ]
+}</code></pre>
+      <h2>POST /tasks</h2>
+      <p>Creates a manual task and broadcasts <code>task.created</code>.</p>
+      <pre><code>curl -X POST http://localhost:4000/tasks \
+  -H 'content-type: application/json' \
+  -d '{"title":"Fix websocket reconnect bug","priority":"high"}'</code></pre>
+      <h2>POST /tasks/:id/done</h2>
+      <p>Marks a task done and broadcasts <code>task.updated</code>.</p>
+      <h2>PATCH /tasks/:id/status</h2>
+      <p>Updates status to <code>todo</code>, <code>in_progress</code>, <code>blocked</code>, <code>review</code>, or <code>done</code>.</p>
+      <h2>GET /sync/status</h2>
+      <p>Returns connector configuration status and polling intervals.</p>
+      <h2>POST /sync</h2>
+      <p>Triggers connector sync. If <code>sources</code> is omitted, all connectors run.</p>
+      <pre><code>{
+  "sources": ["jira", "obsidian"]
+}</code></pre>
+      <h2>Socket.IO</h2>
+      <p>Clients receive <code>task:event</code> messages: <code>tasks.snapshot</code>, <code>task.created</code>, <code>task.updated</code>, and <code>task.deleted</code>.</p>
+    </main>
+  </body>
+</html>

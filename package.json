@@ -1,0 +1,35 @@
+{
+  "name": "jiratown-monorepo",
+  "version": "0.1.3",
+  "private": true,
+  "description": "A multiplayer pixel-art task world where Jira tickets, reminders, and manual tasks become NPCs.",
+  "license": "MIT",
+  "homepage": "https://github.com/penguinkang/jiratown#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/penguinkang/jiratown.git"
+  },
+  "bugs": {
+    "url": "https://github.com/penguinkang/jiratown/issues"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "integrations/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --parallel --filter @jiratown/server --filter @jiratown/client dev",
+    "dev:client": "pnpm --filter @jiratown/client dev",
+    "dev:server": "pnpm --filter @jiratown/server dev",
+    "cli": "pnpm --filter jiratown jiratown",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "playwright": "^1.60.0",
+    "typescript": "^5.7.3"
+  }
+}
