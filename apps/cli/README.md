@@ -34,7 +34,7 @@ jiratown task done <id>
 
 ## Documentation
 
-- [Getting Started](https://cdn.jsdelivr.net/npm/jiratown/docs/getting-started.html)
-- [Connector Setup](https://cdn.jsdelivr.net/npm/jiratown/docs/connectors.html)
-- [API Reference](https://cdn.jsdelivr.net/npm/jiratown/docs/api.html)
-- [Project Overview](https://cdn.jsdelivr.net/npm/jiratown/docs/project.html)
+- [Getting Started](https://github.com/penguinkang/jiratown/blob/main/apps/cli/docs/getting-started.md)
+- [Connector Setup](https://github.com/penguinkang/jiratown/blob/main/apps/cli/docs/connectors.md)
+- [API Reference](https://github.com/penguinkang/jiratown/blob/main/apps/cli/docs/api.md)
+- [Project Overview](https://github.com/penguinkang/jiratown/blob/main/apps/cli/docs/project.md)
