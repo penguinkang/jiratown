@@ -1,6 +1,6 @@
 {
   "name": "jiratown",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "CLI for creating and running local JiraTown apps.",
   "license": "MIT",
   "homepage": "https://github.com/penguinkang/jiratown#readme",
@@ -26,12 +26,12 @@
     }
   },
   "bin": {
-    "jiratown": "./dist/index.js",
-    "jt": "./dist/index.js"
+    "jiratown": "dist/index.js",
+    "jt": "dist/index.js"
   },
   "scripts": {
     "jiratown": "tsx src/index.ts",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && chmod +x dist/index.js",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit"
   },
