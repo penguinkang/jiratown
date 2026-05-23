@@ -64,7 +64,8 @@ export class OfficeScene extends Phaser.Scene {
     this.zones = buildOfficeZones(tasks);
     this.visibleZones = this.zones.slice(this.roomPage * this.roomsPerPage, (this.roomPage + 1) * this.roomsPerPage);
     this.drawOffice(this.visibleZones);
-    const entities = tasks.map((task, index) => {
+    const activeTasks = tasks.filter((task) => task.status !== "done");
+    const entities = activeTasks.map((task, index) => {
       const entity = taskToEntity(task, index, this.visibleZones.length > 0 ? this.visibleZones : this.zones);
       entity.position = this.positionNearDesk(entity.task, index, this.visibleZones.length > 0 ? this.visibleZones : this.zones);
       entity.movement.target = entity.position;

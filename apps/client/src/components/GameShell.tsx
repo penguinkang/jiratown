@@ -21,6 +21,9 @@ export function GameShell() {
       .then((payload) => setTasks(payload.tasks))
       .catch(() => setTasks([]));
 
+    // Trigger a full source sync on mount so the office is always up-to-date on refresh
+    fetch(`${serverUrl}/sync`, { method: "POST", headers: { "content-type": "application/json" }, body: "{}" }).catch(() => undefined);
+
     const socket = io(serverUrl, {
       transports: ["websocket", "polling"]
     });
@@ -79,6 +82,8 @@ export function GameShell() {
       const payload = (await response.json()) as { task: Task };
       upsertTask(payload.task);
       selectTask(undefined);
+      // Resync all sources so the office reflects the latest state from Jira/Obsidian/Reminders
+      fetch(`${serverUrl}/sync`, { method: "POST", headers: { "content-type": "application/json" }, body: "{}" }).catch(() => undefined);
     } catch (error) {
       setTaskActionError(error instanceof Error ? error.message : "Could not close task.");
     }
