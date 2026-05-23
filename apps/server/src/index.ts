@@ -6,7 +6,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Server } from "socket.io";
 import type { TaskEvent } from "@jiratown/shared";
-import { configFromEnv, syncSources, watchObsidian, type SyncAdapterName, type SyncConfig } from "@jiratown/connectors";
+import { configFromEnv, syncSources, transitionJiraIssueDone, watchObsidian, type SyncAdapterName, type SyncConfig } from "@jiratown/connectors";
 import { createTaskRepository, parseCreateTaskInput, type TaskRepository } from "./store.js";
 
 export type JiraTownServerConfig = {
@@ -112,6 +112,10 @@ export function createJiraTownServer(config: JiraTownServerConfig = {}): Fastify
       return reply.code(404).send({ error: "Task not found." });
     }
     broadcast({ type: "task.updated", task });
+    // If this is a Jira issue, also transition it to Done in Jira Cloud
+    if (task.source === "jira" && task.externalId) {
+      transitionJiraIssueDone(syncConfig.jira ?? {}, task.externalId).catch(() => undefined);
+    }
     return { task };
   });
 

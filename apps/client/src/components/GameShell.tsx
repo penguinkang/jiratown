@@ -163,8 +163,8 @@ function TaskDialog({ task, error, onClose, onCloseTask, onOpenSource }: { task:
   const canCloseTask = task.status === "in_progress";
 
   return (
-    <section className="absolute bottom-5 left-1/2 z-30 w-[min(680px,calc(100vw-32px))] -translate-x-1/2 rounded-md border-4 border-slate-900 bg-amber-50 p-4 font-mono text-slate-950 shadow-2xl">
-      <div className="mb-3 flex items-start justify-between gap-4">
+    <section className="absolute bottom-5 left-1/2 z-30 flex w-[min(680px,calc(100vw-32px))] max-h-[80vh] -translate-x-1/2 flex-col rounded-md border-4 border-slate-900 bg-amber-50 font-mono text-slate-950 shadow-2xl">
+      <div className="flex shrink-0 items-start justify-between gap-4 p-4 pb-3">
         <div>
           <div className="text-xs font-bold uppercase tracking-wide text-slate-500">[{priorityLabels[task.priority]}]</div>
           <h1 className="text-xl font-black leading-tight">{task.title}</h1>
@@ -197,31 +197,33 @@ function TaskDialog({ task, error, onClose, onCloseTask, onOpenSource }: { task:
           </button>
         </div>
       </div>
-      <div className="grid gap-2 text-sm sm:grid-cols-2">
-        <Detail label="Status" value={statusLabels[task.status]} />
-        <Detail label="Source" value={task.source} />
-        <Detail label="Room" value={taskRoomLabel(task)} />
-        <Detail label="Assignee" value={task.assignee ?? "Unassigned"} />
-        <Detail label="Sprint" value={task.sprint ?? "None"} />
-      </div>
-      {task.description ? <p className="mt-4 leading-relaxed">{task.description}</p> : null}
-      {error ? <p className="mt-4 rounded border border-red-300 bg-red-50 px-3 py-2 text-sm font-bold text-red-800">{error}</p> : null}
-      <div className="mt-4 flex flex-wrap gap-2">
-        {task.labels.map((label) => (
-          <span key={label} className="rounded bg-slate-900 px-2 py-1 text-xs font-bold text-amber-50">
-            {label}
-          </span>
-        ))}
-      </div>
-      {task.comments.length > 0 ? (
-        <div className="mt-4 border-t border-slate-300 pt-3 text-sm">
-          {task.comments.map((comment) => (
-            <p key={comment.id}>
-              <strong>{comment.author}:</strong> {comment.body}
-            </p>
+      <div className="overflow-y-auto px-4 pb-4">
+        <div className="grid gap-2 text-sm sm:grid-cols-2">
+          <Detail label="Status" value={statusLabels[task.status]} />
+          <Detail label="Source" value={task.source} />
+          <Detail label="Room" value={taskRoomLabel(task)} />
+          <Detail label="Assignee" value={task.assignee ?? "Unassigned"} />
+          <Detail label="Sprint" value={task.sprint ?? "None"} />
+        </div>
+        {task.description ? <p className="mt-4 leading-relaxed">{task.description}</p> : null}
+        {error ? <p className="mt-4 rounded border border-red-300 bg-red-50 px-3 py-2 text-sm font-bold text-red-800">{error}</p> : null}
+        <div className="mt-4 flex flex-wrap gap-2">
+          {task.labels.map((label) => (
+            <span key={label} className="rounded bg-slate-900 px-2 py-1 text-xs font-bold text-amber-50">
+              {label}
+            </span>
           ))}
         </div>
-      ) : null}
+        {task.comments.length > 0 ? (
+          <div className="mt-4 border-t border-slate-300 pt-3 text-sm">
+            {task.comments.map((comment) => (
+              <p key={comment.id}>
+                <strong>{comment.author}:</strong> {comment.body}
+              </p>
+            ))}
+          </div>
+        ) : null}
+      </div>
     </section>
   );
 }

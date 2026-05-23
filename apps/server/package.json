@@ -1,6 +1,6 @@
 {
   "name": "@jiratown/server",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^10.0.2",
-    "@jiratown/connectors": "^0.1.2",
+    "@jiratown/connectors": "^0.1.4",
     "@jiratown/shared": "^0.1.2",
     "fastify": "^5.2.1",
     "socket.io": "^4.8.1",

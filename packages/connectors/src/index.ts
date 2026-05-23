@@ -131,7 +131,8 @@ export function createJiraAdapter(config: JiraConfig = {}): TaskAdapter {
       }
 
       const baseUrl = jiraApiBaseUrl(config);
-      const jql = config.jql ?? "assignee = currentUser() AND statusCategory != Done ORDER BY updated DESC";
+      // Include Done tickets so external closes sync back; exclude Epics (shown separately in Jira)
+      const jql = config.jql ?? "assignee = currentUser() AND issuetype not in (Epic) ORDER BY updated DESC";
       const fields = [
         "summary",
         "description",
@@ -143,6 +144,7 @@ export function createJiraAdapter(config: JiraConfig = {}): TaskAdapter {
         "project",
         "created",
         "updated",
+        "issuetype",
         "customfield_10020"
       ];
 
@@ -331,6 +333,39 @@ function mapReminder(row: AppleReminderRow): CreateTaskInput {
   };
   if (row.notes) task.description = row.notes;
   return task;
+}
+
+/**
+ * Transition a Jira issue to Done via the Jira Transitions API.
+ * Finds the first transition whose target status category is "done" and applies it.
+ * Returns true if the transition succeeded, false if skipped or failed.
+ */
+export async function transitionJiraIssueDone(config: JiraConfig, issueKey: string): Promise<boolean> {
+  if (!isJiraConfigured(config)) return false;
+  const baseUrl = jiraApiBaseUrl(config);
+
+  try {
+    const transitionsRes = await fetch(`${baseUrl}/rest/api/3/issue/${encodeURIComponent(issueKey)}/transitions`, {
+      headers: jiraHeaders(config)
+    });
+    if (!transitionsRes.ok) return false;
+
+    const { transitions } = await transitionsRes.json() as {
+      transitions: Array<{ id: string; name: string; to: { statusCategory: { key: string } } }>
+    };
+
+    const doneTransition = transitions.find((t) => t.to.statusCategory.key === "done");
+    if (!doneTransition) return false;
+
+    const applyRes = await fetch(`${baseUrl}/rest/api/3/issue/${encodeURIComponent(issueKey)}/transitions`, {
+      method: "POST",
+      headers: { ...jiraHeaders(config), "content-type": "application/json" },
+      body: JSON.stringify({ transition: { id: doneTransition.id } })
+    });
+    return applyRes.ok || applyRes.status === 204;
+  } catch {
+    return false;
+  }
 }
 
 function isJiraConfigured(config?: JiraConfig): boolean {

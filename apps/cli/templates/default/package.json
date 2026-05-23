@@ -11,10 +11,10 @@
     "start": "next start"
   },
   "dependencies": {
-    "@jiratown/client": "^0.1.4",
-    "@jiratown/connectors": "^0.1.3",
+    "@jiratown/client": "^0.1.5",
+    "@jiratown/connectors": "^0.1.4",
     "@jiratown/engine": "^0.1.3",
-    "@jiratown/server": "^0.1.3",
+    "@jiratown/server": "^0.1.5",
     "@jiratown/shared": "^0.1.3",
     "next": "^15.1.4",
     "phaser": "^3.87.0",
